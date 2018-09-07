@@ -1,5 +1,7 @@
 const express = require('express');
-const router = express.Router();
+const chirpsstore = require('../chirpstore');
+
+let router = express.Router();
 
 router.get('/', (req, res) => {
     res.send('chirps');
