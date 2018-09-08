@@ -25,6 +25,12 @@ router.post('/', (req, res) => {
 
 //put router
 //update resource with data
+router.put('/:id?', (req, res) => {
+    let id = req.params.id;
+    console.log(id);
+    chirpsStore.UpdateChirp(id, res.body);
+    res.sendStatus(200);
+});
 
 //delete router
 //delete resource with id
