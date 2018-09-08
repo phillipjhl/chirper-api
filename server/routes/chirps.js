@@ -27,12 +27,17 @@ router.post('/', (req, res) => {
 //update resource with data sent from client
 router.put('/:id', (req, res) => {
     let id = req.params.id;
-    console.log(id);
     chirpsStore.UpdateChirp(id, req.body);
     res.sendStatus(200);
 });
 
 //delete router
 //delete resource with id
+router.delete('/:id', (req, res) => {
+    let id = req.params.id;
+    console.log(id);
+    chirpsStore.DeleteChirp(id);
+    res.sendStatus(200);
+});
 
 module.exports = router;
