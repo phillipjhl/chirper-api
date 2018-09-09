@@ -32,10 +32,9 @@ router.put('/:id', (req, res) => {
 });
 
 //delete router
-//delete resource with id
+//delete resource with requested id
 router.delete('/:id', (req, res) => {
     let id = req.params.id;
-    console.log(id);
     chirpsStore.DeleteChirp(id);
     res.sendStatus(200);
 });

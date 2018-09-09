@@ -11,7 +11,7 @@ let app = express();
 //Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static('../client'));
+app.use(express.static('client'));
 
 app.use('/api', apiRoutes);
 
