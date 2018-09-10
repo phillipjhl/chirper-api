@@ -9,14 +9,21 @@ $(document).ready(() => {
             $("#Timeline").prepend(this.div);
             $(`#${this.id}`).append(`<h5 class="card-title">${this.name}</h5>`);
             $(`#${this.id}`).prepend(`<button id="close" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>`);
-            $(`#${this.id}`).append(`<p class="card-text">${this.text}</p>`);
+            $(`#${this.id}`).append(`<p class="card-text" id="card-text-${this.id}">${this.text}</p>`);
             $(this.div).addClass("my-3");
 
+            //when 'x' is clicked, call delete method
             $("#close").click(()=> {
                 this.deleteChirp();
             });
+
+            //when chirp is clicked, call update method
+            $(this.div).click(()=> {
+                this.updateChirp();
+            });
         }
 
+        //deletes current chirp data from server and then removes card fromm DOM
         deleteChirp() {
             $.ajax({
                 url: `http://localhost:3000/api/chirps/${this.id}`,
@@ -28,8 +35,17 @@ $(document).ready(() => {
             });
         }
 
+        //pop up a modal to edit the contents and then use ajax method to put new data to server
         updateChirp() {
-
+            let text = `${this.text}`;
+            console.log(this.id);
+            $("#edit-chirp-modal").modal('toggle');
+            $("#edit-chirp-text").val(text);
+            $("#save-change").click(()=>{
+                var updatedText = $("#edit-chirp-text").val();
+                var id = this.id;
+                $(`#card-text-${id}`).text(`${updatedText}`);
+            });
         }
     }
 
