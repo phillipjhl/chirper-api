@@ -18,9 +18,13 @@ $(document).ready(() => {
         }
 
         deleteChirp() {
-            $(this.div).remove();
             $.ajax({
-                url: `http://localhost:3000/api/chirps/${this.id}`
+                url: `http://localhost:3000/api/chirps/${this.id}`,
+                type: 'DELETE',
+                success: ()=>{
+                    $(this.div).remove();
+                },
+                error: (error) => alert(error)
             });
         }
 
