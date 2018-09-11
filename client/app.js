@@ -1,4 +1,6 @@
 $(document).ready(() => {
+    
+    getChirps();
 
     class ChirpCard {
         constructor(id, name, text) {
@@ -10,15 +12,16 @@ $(document).ready(() => {
             $(`#${this.id}`).append(`<h5 class="card-title">${this.name}</h5>`);
             $(`#${this.id}`).prepend(`<button id="close" type="button" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>`);
             $(`#${this.id}`).append(`<p class="card-text" id="card-text-${this.id}">${this.text}</p>`);
+            $(`#${this.id}`).append(`<button class="btn btn-primary" type="button" id="edit-btn">Edit</button>`);
             $(this.div).addClass("my-3");
 
             //when 'x' is clicked, call delete method
-            $("#close").click(()=> {
+            $("#close").click(() => {
                 this.deleteChirp();
             });
 
             //when chirp is clicked, call update method
-            $(this.div).click(()=> {
+            $("#edit-btn").click(() => {
                 this.updateChirp();
             });
         }
@@ -28,41 +31,41 @@ $(document).ready(() => {
             $.ajax({
                 url: `http://localhost:3000/api/chirps/${this.id}`,
                 type: 'DELETE',
-                success: ()=>{
+                success: () => {
                     $(this.div).remove();
                 },
-                error: (error) => alert(error)
+                error: error=> alert(error)
             });
         }
 
         //pop up a modal to edit the contents and then use ajax method to put new data to server
         updateChirp() {
-            let text = `${this.text}`;
+            let text = this.text;
             console.log(this.id);
             $("#edit-chirp-modal").modal('toggle');
-            $("#edit-chirp-text").val(text);
-            $("#save-change").click(()=>{
-                var updatedText = $("#edit-chirp-text").val();
-                var id = this.id;
-                $(`#card-text-${id}`).text(`${updatedText}`);
+            $("#edit-chirp-name").val(this.name)
+            $("#edit-chirp-text").val(this.text);
+            $("#save-change").click(() => {
+                var updatedText = {
+                    name: $("#edit-chirp-name").val(),
+                    text: $("#edit-chirp-text").val()
+                };
+                console.log(updatedText);
+                $.ajax({
+                    url: `http://localhost:3000/api/chirps/${this.id}`,
+                    type: 'PUT',
+                    data: JSON.stringify(updatedText),
+                    contentType: 'application/json; charset=UTF-8',
+                    success: () => {
+                        getChirps()
+                    },
+                    error: error=>alert(error)
+                });
             });
         }
     }
 
-    $.ajax({
-        url: "http://localhost:3000/api/chirps",
-        success: (result) => {
-            for (const item in result) {
-                if (result[item].name !== undefined) {
-                    new ChirpCard(item, result[item].name, result[item].text);
-                };
-            };
-        },
-        error: (error) => {
-            console.log(error);
-        }
-    });
-
+    //click event to handle new post
     $("#chirp-post").click(() => {
         let name = $("#chirp-name").val();
         let text = $("#chirp-text").val();
@@ -75,9 +78,26 @@ $(document).ready(() => {
             data: JSON.stringify(data),
             contentType: 'application/json; charset=UTF-8'
         });
-        new ChirpCard(null, name, text);
+        getChirps();
     });
 
 
+    //calls ajax request to get all chirps from server
+    function getChirps() {
+        $("#Timeline").empty();
+        $.ajax({
+            url: "http://localhost:3000/api/chirps",
+            success: (result) => {
+                for (const id in result) {
+                    if (result[id].name !== undefined) {
+                        new ChirpCard(id, result[id].name, result[id].text);
+                    };
+                };
+            },
+            error: (error) => {
+                console.log(error);
+            }
+        });
+    }
 
 });

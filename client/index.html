@@ -21,6 +21,7 @@
 
     <div class="container bg-light">
 
+        <!-- Input form for new chirp -->
         <form>
             <div class="form-group">
                 <label for="chirp-name">Name:</label>
@@ -35,37 +36,42 @@
             </div>
         </form>
 
+        <!-- Timeline Containing element -->
         <div class="container" id="timline-container">
             <div class="row bg-light">
                 <h1 class="text-primary">Timeline</h1>
             </div>
+            <!-- Contains all chirps -->
             <div class="bg-light" id="Timeline">
 
 
-                <!-- Modal -->
-                <div class="modal fade" id="edit-chirp-modal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="modal-title">Edit Your Chirp!</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body" id="modal-body">
-                                <input type="text" name="edit-text" id="edit-chirp-text">
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" id="save-change">Save changes</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 
+    <!-- Editing Modal -->
+    <div class="modal fade" id="edit-chirp-modal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-title">Edit Your Chirp!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    <label for="edit-chirp-name">Name:</label>
+                    <input type="text" name="edit-name" class="form-control" id="edit-chirp-name">
+                    <label for="edit-chirp-text">Text:</label>
+                    <input type="text" name="edit-text" class="form-control" id="edit-chirp-text">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="save-change">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
